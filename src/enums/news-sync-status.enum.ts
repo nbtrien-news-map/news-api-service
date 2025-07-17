@@ -1,0 +1,5 @@
+export enum NewsSyncStatusEnum {
+    SYNCED_RAW_DATA = 1,
+    SYNCED_GEOCODING_LOCATION = 2,
+    SYNC_GEOCODING_LOCATION_FAILED = 3,
+}

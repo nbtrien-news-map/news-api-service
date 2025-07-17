@@ -4,7 +4,7 @@ import { CommonEntity } from './common.entity';
 @Entity({ name: 'geocoding_location' })
 export class GeocodingLocationEntity extends CommonEntity {
     @PrimaryGeneratedColumn({ name: 'geocoding_location_id' })
-    geocodingLocationId!: number;
+    geocodingLocationId: number;
 
     @Column({ name: 'place_id', unique: true, type: 'bigint' })
     placeId: string;

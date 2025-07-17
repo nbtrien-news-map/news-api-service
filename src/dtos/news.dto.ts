@@ -1,7 +1,11 @@
+import { CategoryResponseDto } from './category.dto';
+import { GeocodingLocationResponseDto } from './geocoding.dto';
+
 export class NewsResponseDto {
     id: number;
     title: string;
     description: string;
-    lat: number;
-    long: number;
+    address: string;
+    geocodingLocation: GeocodingLocationResponseDto | null;
+    category: CategoryResponseDto | null;
 }

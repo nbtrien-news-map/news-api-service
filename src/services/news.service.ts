@@ -13,4 +13,14 @@ export class NewsService {
         const entities = await this.newsRepository.findAll();
         return entities.map(toNewsResponseDto);
     }
+
+    async getAllByAreaId(areaId: number): Promise<NewsResponseDto[]> {
+        const entities = await this.newsRepository.findAllByAreaId(areaId);
+        return entities.map(toNewsResponseDto);
+    }
+
+    async getAllByAreaIdAndCategoryIds(areaId: number, categoryIds: number[]): Promise<NewsResponseDto[]> {
+        const entities = await this.newsRepository.findAllByAreaIdAndCategoryIds(areaId, categoryIds);
+        return entities.map(toNewsResponseDto);
+    }
 }
