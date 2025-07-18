@@ -6,6 +6,9 @@ export class NewsResponseDto {
     title: string;
     description: string;
     address: string;
+    provider: string;
+    sourceUrl: string;
+    publishedAt: Date;
     geocodingLocation: GeocodingLocationResponseDto | null;
     category: CategoryResponseDto | null;
 }

@@ -8,6 +8,9 @@ export const toNewsResponseDto = (entity: MapNewsItemEntity): NewsResponseDto =>
     title: entity.title,
     description: entity.description,
     address: entity.address,
+    sourceUrl: entity.sourceUrl,
+    provider: entity.provider,
+    publishedAt: entity.publishedAt,
     geocodingLocation: entity.geocodingLocation ? toGeocodingLocationResponseDto(entity.geocodingLocation) : null,
     category: entity?.category ? toCategoryResponseDto(entity.category) : null,
 });
