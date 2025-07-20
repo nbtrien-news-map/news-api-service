@@ -10,13 +10,12 @@ export class NewsTrackedAreaRepository {
     }
 
     async findAll(): Promise<NewsTrackedAreaEntity[]> {
-        return await this.repository.find({ relations: ['geocodingLocation'] });
+        return await this.repository.find();
     }
 
     async findFirstArea(): Promise<NewsTrackedAreaEntity | null> {
         return await this.repository
             .createQueryBuilder('area')
-            .innerJoinAndSelect('area.geocodingLocation', 'geo')
             .orderBy('area.newsTrackedAreaId', 'ASC')
             .limit(1)
             .getOne();
@@ -25,20 +24,31 @@ export class NewsTrackedAreaRepository {
     async findAreaByLatitudeAnLongitude(latitude: number, longitude: number): Promise<NewsTrackedAreaEntity | null> {
         return this.repository
             .createQueryBuilder('area')
-            .innerJoinAndSelect('area.geocodingLocation', 'geo')
-            .where('geo.latitude = :latitude AND geo.longitude = :longitude', { latitude, longitude })
+            .where('latitude = :latitude AND longitude = :longitude', { latitude, longitude })
             .getOne();
+    }
+
+    async findAreasContainingLocation(latitude: number, longitude: number): Promise<NewsTrackedAreaEntity[]> {
+        return this.repository
+            .createQueryBuilder('area')
+            .where(
+                `CAST(bounding_box->>0 AS double precision) <= :latitude AND
+                CAST(bounding_box->>2 AS double precision) >= :latitude AND
+                CAST(bounding_box->>1 AS double precision) <= :longitude AND
+                CAST(bounding_box->>3 AS double precision) >= :longitude`,
+                { latitude, longitude }
+            )
+            .getMany();
     }
 
     async findAreaContainingLocation(latitude: number, longitude: number): Promise<NewsTrackedAreaEntity | null> {
         return this.repository
             .createQueryBuilder('area')
-            .innerJoinAndSelect('area.geocodingLocation', 'geo')
             .where(
-                `CAST(geo.bounding_box->>0 AS double precision) <= :latitude AND
-                CAST(geo.bounding_box->>2 AS double precision) >= :latitude AND
-                CAST(geo.bounding_box->>1 AS double precision) <= :longitude AND
-                CAST(geo.bounding_box->>3 AS double precision) >= :longitude`,
+                `CAST(bounding_box->>0 AS double precision) <= :latitude AND
+                CAST(bounding_box->>2 AS double precision) >= :latitude AND
+                CAST(bounding_box->>1 AS double precision) <= :longitude AND
+                CAST(bounding_box->>3 AS double precision) >= :longitude`,
                 { latitude, longitude }
             )
             .getOne();
@@ -47,13 +57,12 @@ export class NewsTrackedAreaRepository {
     async findNearestAreaByLocation(latitude: number, longitude: number): Promise<NewsTrackedAreaEntity | null> {
         return this.repository
             .createQueryBuilder('area')
-            .innerJoinAndSelect('area.geocodingLocation', 'geo')
             .addSelect(
                 `6371 * 2 * ASIN(
                     SQRT(
-                    POWER(SIN(RADIANS(geo.latitude - :latitude) / 2), 2) +
-                    COS(RADIANS(:latitude)) * COS(RADIANS(geo.latitude)) *
-                    POWER(SIN(RADIANS(geo.longitude - :longitude) / 2), 2)
+                    POWER(SIN(RADIANS(latitude - :latitude) / 2), 2) +
+                    COS(RADIANS(:latitude)) * COS(RADIANS(latitude)) *
+                    POWER(SIN(RADIANS(longitude - :longitude) / 2), 2)
                     )
                 )`,
                 'distance'

@@ -2,7 +2,6 @@ import { GeocodingLocationResponseDto } from '~/dtos/geocoding.dto';
 import { GeocodingLocationEntity } from '~/entities/geocoding-location.entity';
 
 export const toGeocodingLocationResponseDto = (entity: GeocodingLocationEntity): GeocodingLocationResponseDto => ({
-    placeId: entity.placeId,
     addressType: entity.addressType,
     boundingBox: entity.boundingBox,
     latitude: entity.latitude,
@@ -11,4 +10,9 @@ export const toGeocodingLocationResponseDto = (entity: GeocodingLocationEntity):
     name: entity.name,
     importance: entity.importance,
     placeRank: entity.placeRank,
+    osmType: entity.osmType,
+    osmId: entity.osmId,
+    adminLevel: entity.adminLevel,
+    osmClass: entity.osmClass,
+    osmTypeName: entity.osmTypeName,
 });

@@ -1,5 +1,4 @@
 export class GeocodingLocationResponseDto {
-    placeId: string;
     latitude: number;
     longitude: number;
     placeRank: number;
@@ -8,4 +7,9 @@ export class GeocodingLocationResponseDto {
     name: string;
     displayName: string;
     boundingBox: number[];
+    osmType: string;
+    osmId: number;
+    adminLevel: string;
+    osmClass: string;
+    osmTypeName: string;
 }

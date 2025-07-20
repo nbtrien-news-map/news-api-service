@@ -1,6 +1,5 @@
 import { AreaResponseDto } from '~/dtos/area.dto';
 import { NewsTrackedAreaEntity } from '~/entities/news-tracked-area.entity';
-import { toGeocodingLocationResponseDto } from './geocoding.mapper';
 
 export const toAreaResponseDto = (entity: NewsTrackedAreaEntity): AreaResponseDto => ({
     id: entity.newsTrackedAreaId,
@@ -9,5 +8,15 @@ export const toAreaResponseDto = (entity: NewsTrackedAreaEntity): AreaResponseDt
     nameEn: entity.nameEn,
     shortName: entity.shortName,
     shortCode: entity.shortCode,
-    geocodingLocation: toGeocodingLocationResponseDto(entity.geocodingLocation),
+    addressType: entity.addressType,
+    boundingBox: entity.boundingBox,
+    latitude: entity.latitude,
+    longitude: entity.longitude,
+    importance: entity.importance,
+    placeRank: entity.placeRank,
+    osmType: entity.osmType,
+    osmId: entity.osmId,
+    adminLevel: entity.adminLevel,
+    osmClass: entity.osmClass,
+    osmTypeName: entity.osmTypeName,
 });

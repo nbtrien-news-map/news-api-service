@@ -23,11 +23,15 @@ class AreaController {
         const latitude = toNumber(req.query.latitude);
         const longitude = toNumber(req.query.longitude);
 
-        if (latitude === null || longitude === null) {
-            throw new Error('Invalid latitude or longitude');
-        }
-
         const nearestArea = await this.areaService.getNearestAreaByLocation(latitude, longitude);
+        res.json(nearestArea);
+    };
+
+    getAreaByLatLong = async (req: Request, res: Response) => {
+        const latitude = toNumber(req.query.latitude);
+        const longitude = toNumber(req.query.longitude);
+
+        const nearestArea = await this.areaService.getAreaByLocation(latitude, longitude);
         res.json(nearestArea);
     };
 }

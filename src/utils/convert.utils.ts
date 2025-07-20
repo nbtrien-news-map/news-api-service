@@ -1,4 +1,7 @@
-export function toNumber(value: any): number | null {
+export const toNumber = (value: any): number => {
     const num = parseFloat(value);
-    return isNaN(num) ? null : num;
-}
+    if (isNaN(num)) {
+        throw new Error(`Invalid number value: ${value}`);
+    }
+    return num;
+};

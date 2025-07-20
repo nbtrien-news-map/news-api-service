@@ -2,6 +2,7 @@ import { AreaResponseDto } from '~/dtos/area.dto';
 import { NotFoundError } from '~/errors/NotFoundError';
 import { toAreaResponseDto } from '~/mappers/area.mapper';
 import { NewsTrackedAreaRepository } from '~/repositories/news-tracked-area.repository';
+import { haversineDistance } from '~/utils/geolocation.utils';
 
 export class TrackedAreaService {
     private newsTrackedAreaRepository: NewsTrackedAreaRepository;
@@ -21,6 +22,25 @@ export class TrackedAreaService {
             throw new NotFoundError('No area found');
         }
         return toAreaResponseDto(entity);
+    }
+
+    async getAreaByLocation(latitude: number, longitude: number): Promise<AreaResponseDto> {
+        const areas = await this.newsTrackedAreaRepository.findAreasContainingLocation(latitude, longitude);
+
+        if (!areas || areas.length === 0) {
+            throw new NotFoundError('No area found for given location');
+        }
+
+        const nearest = areas.reduce((closest, current) => {
+            if (!current || !closest) return closest;
+
+            const currentDistance = haversineDistance(latitude, longitude, current.latitude, current.longitude);
+            const closestDistance = haversineDistance(latitude, longitude, closest.latitude, closest.longitude);
+
+            return currentDistance < closestDistance ? current : closest;
+        });
+
+        return toAreaResponseDto(nearest);
     }
 
     async getNearestAreaByLocation(latitude: number, longitude: number): Promise<AreaResponseDto> {

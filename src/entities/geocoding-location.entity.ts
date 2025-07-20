@@ -6,8 +6,20 @@ export class GeocodingLocationEntity extends CommonEntity {
     @PrimaryGeneratedColumn({ name: 'geocoding_location_id' })
     geocodingLocationId: number;
 
-    @Column({ name: 'place_id', unique: true, type: 'bigint' })
-    placeId: string;
+    @Column({ name: 'osm_type', type: 'varchar' })
+    osmType: string;
+
+    @Column({ name: 'osm_id' })
+    osmId: number;
+
+    @Column({ name: 'admin_level', type: 'varchar' })
+    adminLevel: string;
+
+    @Column({ name: 'osm_class' })
+    osmClass: string;
+
+    @Column({ name: 'osm_type_name' })
+    osmTypeName: string;
 
     @Column({ name: 'latitude', type: 'double precision' })
     latitude: number;
