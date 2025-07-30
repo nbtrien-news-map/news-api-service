@@ -32,8 +32,7 @@ class NewsController {
             throw new Error('Invalid areaId or categoryIds');
         }
         if (!categoryIdsParam) {
-            const resullt = await this.newsService.getAllByAreaId(areaId);
-            res.json(resullt);
+            res.json([]);
             return;
         }
         const categoryIds = categoryIdsParam

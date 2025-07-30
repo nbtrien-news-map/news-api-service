@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { GeocodingLocationEntity } from './geocoding-location.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'news_tracked_area' })
 export class NewsTrackedAreaEntity {
@@ -56,8 +55,4 @@ export class NewsTrackedAreaEntity {
         type: 'jsonb',
     })
     boundingBox: number[];
-
-    // @ManyToOne(() => GeocodingLocationEntity)
-    // @JoinColumn({ name: 'geocoding_location_id', referencedColumnName: 'geocodingLocationId' })
-    // geocodingLocation: GeocodingLocationEntity;
 }
